@@ -13,7 +13,50 @@
         <a href="/" class="btn btn-secondary">Disconnect</a>
     </div>
 
-    <!-- Customers Table -->
+    <div class="card mb-5">
+        <div class="card-header">
+            <h2>Add New Customer</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/addCustomer}" method="post">
+                <div class="mb-3">
+                    <label for="customerDisplayName" class="form-label">Display Name</label>
+                    <input type="text" class="form-control" id="customerDisplayName" name="displayName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="customerEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="customerEmail" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="customerPhone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="customerPhone" name="phone">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Customer</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mb-5">
+        <div class="card-header">
+            <h2>Add New Project (Job)</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/addProject}" method="post">
+                <div class="mb-3">
+                    <label for="projectDisplayName" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" id="projectDisplayName" name="displayName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="parentCustomer" class="form-label">Parent Customer</label>
+                    <select id="parentCustomer" name="parentRefId" class="form-select" required>
+                        <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.displayName}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Project</button>
+            </form>
+        </div>
+    </div>
+
     <div class="card mb-5">
         <div class="card-header">
             <h2>Customers</h2>
@@ -43,7 +86,6 @@
         </div>
     </div>
 
-    <!-- Projects Table -->
     <div class="card">
         <div class="card-header">
             <h2>Projects (Jobs)</h2>
@@ -58,6 +100,8 @@
                     <th>ID</th>
                     <th>Project Name</th>
                     <th>Parent Customer</th>
+                    <th>ParentRef</th>
+                    <th>Is Project</th>
                     <th>Status</th>
                 </tr>
                 </thead>
@@ -66,6 +110,8 @@
                     <td th:text="${project.id}"></td>
                     <td th:text="${project.displayName}"></td>
                     <td th:text="${project.parentRef != null ? project.parentRef.name : 'N/A'}"></td>
+                    <td th:text="${project.parentRef.value}"></td>
+                    <td th:text="${project.isIsProject()}"></td>
                     <td th:text="${project.jobInfo != null ? project.jobInfo.status : 'N/A'}"></td>
                 </tr>
                 </tbody>
